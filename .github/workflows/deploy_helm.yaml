@@ -38,15 +38,23 @@ jobs:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_REGION }}
 
+    # The KUBECONFIG env var is automatically exported and picked up by kubectl.
+    - id: 'get-pods'
+      run: 'kubectl get pods'
+
     # Install Helm
     - name: Install Helm
       run: |
         curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
+    # The KUBECONFIG env var is automatically exported and picked up by kubectl.
+    - id: 'helm-list'
+      run: 'helm ls -A'
+
     - name: Deploy helm chart
       run: |
-        gcloud container clusters get-credentials $GKE_CLUSTER \
-          --zone $GKE_ZONE \
-          --project $GKE_PROJECT
+        gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
+          --zone ${{ env.GKE_REGION }} \
+          --project ${{ secrets.GKE_PROJECT }}
         helm repo add bitnami https://charts.bitnami.com/bitnami
         helm upgrade --install postgresql oci://registry-1.docker.io/bitnamicharts/postgresql-ha
