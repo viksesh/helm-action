@@ -1,0 +1,45 @@
+name: Deploy PostgreSQL to GKE
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: autopilot-vik-1    # Add your cluster name here.
+  GKE_ZONE: us-central1-c   # Add your cluster zone here.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Setup gcloud CLI
+    - uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}
+
+    # Get the GKE credentials so we can deploy to the cluster
+    - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GKE_SA_KEY }}
+
+    # Install Helm
+    - name: Install Helm
+      run: |
+        curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    - name: Deploy helm chart
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER \
+          --zone $GKE_ZONE \
+          --project $GKE_PROJECT
+        helm repo add bitnami https://charts.bitnami.com/bitnami
+        helm upgrade --install postgresql oci://registry-1.docker.io/bitnamicharts/postgresql-ha
