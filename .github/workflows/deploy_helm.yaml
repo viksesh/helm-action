@@ -37,6 +37,9 @@ jobs:
         project_id: ${{ secrets.GKE_PROJECT }}
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_REGION }}
+    
+    - id: 'install-gke-auth-plugin'
+      run: gcloud components install gke-gcloud-auth-plugin 
 
     # The KUBECONFIG env var is automatically exported and picked up by kubectl.
     - id: 'get-pods'
