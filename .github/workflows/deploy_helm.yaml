@@ -61,7 +61,7 @@ jobs:
         sudo mv helmfile /usr/local/bin/
         echo $PATH
         env
-        /usr/local/bin/helmfile version
+        ./usr/local/bin/helmfile version
         helmfile version
 
     - name: Deploy Helm Charts
