@@ -54,10 +54,20 @@ jobs:
     - id: 'helm-list'
       run: 'helm ls -A'
 
-    - name: Deploy helm chart
+    - name: Install Helmfile
       run: |
-        gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
-          --zone ${{ env.GKE_REGION }} \
-          --project ${{ secrets.GKE_PROJECT }}
-        helm repo add bitnami https://charts.bitnami.com/bitnami
-        helm upgrade --install postgresql oci://registry-1.docker.io/bitnamicharts/postgresql-ha
+        curl -L https://github.com/roboll/helmfile/releases/download/v0.161.0/helmfile_linux_amd64 -o helmfile
+        chmod +x helmfile
+        sudo mv helmfile /usr/local/bin/
+
+    - name: Deploy Helm Charts
+      run: |
+        helmfile sync
+
+    # - name: Deploy helm chart
+    #   run: |
+    #     gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
+    #       --zone ${{ env.GKE_REGION }} \
+    #       --project ${{ secrets.GKE_PROJECT }}
+    #     helm repo add bitnami https://charts.bitnami.com/bitnami
+    #     helm upgrade --install postgresql oci://registry-1.docker.io/bitnamicharts/postgresql-ha
