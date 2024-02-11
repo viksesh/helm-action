@@ -1,4 +1,4 @@
-name: Deploy PostgreSQL to GKE
+name: Deploy Helm Charts to GKE
 
 on:
   push:
@@ -66,11 +66,3 @@ jobs:
     - name: Deploy Helm Charts
       run: |
         helmfile sync
-
-    # - name: Deploy helm chart
-    #   run: |
-    #     gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
-    #       --zone ${{ env.GKE_REGION }} \
-    #       --project ${{ secrets.GKE_PROJECT }}
-    #     helm repo add bitnami https://charts.bitnami.com/bitnami
-    #     helm upgrade --install postgresql oci://registry-1.docker.io/bitnamicharts/postgresql-ha
