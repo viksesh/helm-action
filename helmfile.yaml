@@ -1,8 +1,8 @@
 repositories:
-  - name: codecentric
-    url: https://codecentric.github.io/helm-charts
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
+  - name: codecentric
+    url: https://codecentric.github.io/helm-charts
   - name: hashicorp
     url: https://helm.releases.hashicorp.com
 
