@@ -56,7 +56,7 @@ jobs:
 
     - name: Install Helmfile
       run: |
-        curl -L https://github.com/helmfile/helmfile/releases/download/v0.161.0/helmfile_0.161.0_linux_amd64 -o helmfile
+        curl -L https://github.com/helmfile/helmfile/releases/download/v0.161.0/helmfile_0.161.0_linux_amd64.tar.gz -o helmfile
         chmod +x helmfile
         sudo mv helmfile /usr/local/bin/
         echo $PATH
