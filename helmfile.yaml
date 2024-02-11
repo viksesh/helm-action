@@ -3,8 +3,15 @@ repositories:
     url: https://codecentric.github.io/helm-charts
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
+  - name: hashicorp
+    url: https://helm.releases.hashicorp.com
 
 releases:
+  - name: vault
+    namespace: vault
+    createNamespace: true
+    chart: hashicorp/vault
+    version:  0.27.0
   - name: postgresql
     namespace: postgresql
     createNamespace: true
