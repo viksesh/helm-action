@@ -12,6 +12,11 @@ releases:
     createNamespace: true
     chart: hashicorp/vault
     version:  0.27.0
+  - name: redis
+    namespace: redis
+    createNamespace: true
+    chart: bitnami/redis
+    version: 18.12.1
   - name: postgresql
     namespace: postgresql
     createNamespace: true
