@@ -9,10 +9,6 @@ releases:
     namespace: default
     chart: stable/nginx-ingress
     version: latest
-    values:
-      controller:
-        service:
-          type: LoadBalancer
   - name: postgresql
     namespace: postgresql
     createNamespace: true
