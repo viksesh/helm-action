@@ -1,0 +1,76 @@
+name: Deploy PostgreSQL to GKE
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: autopilot-vik-1    # Add your cluster name here.
+  GKE_REGION: us-central1   # Add your cluster zone here.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: ${{ secrets.GKE_SA_KEY }}
+
+    # Setup gcloud CLI
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    # Get the GKE credentials so we can deploy to the cluster
+    - id: 'get-credentials'
+      uses: 'google-github-actions/get-gke-credentials@v2'
+      with:
+        project_id: ${{ secrets.GKE_PROJECT }}
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_REGION }}
+    
+    - id: 'install-gke-auth-plugin'
+      run: gcloud components install gke-gcloud-auth-plugin 
+
+    # The KUBECONFIG env var is automatically exported and picked up by kubectl.
+    - id: 'get-pods'
+      run: 'kubectl get pods'
+
+    # Install Helm
+    - name: Install Helm
+      run: |
+        curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    # The KUBECONFIG env var is automatically exported and picked up by kubectl.
+    - id: 'helm-list'
+      run: 'helm ls -A'
+
+    - name: Install Helmfile
+      run: |
+        curl -L https://github.com/helmfile/helmfile/releases/download/v0.161.0/helmfile_0.161.0_linux_amd64.tar.gz | tar -xz
+        chmod +x helmfile
+        sudo mv helmfile /usr/local/bin/
+        uname -m
+        ls -l /usr/local/bin/helmfile
+        helmfile version
+
+    - name: Deploy Helm Charts
+      run: |
+        helmfile sync
+
+    # - name: Deploy helm chart
+    #   run: |
+    #     gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
+    #       --zone ${{ env.GKE_REGION }} \
+    #       --project ${{ secrets.GKE_PROJECT }}
+    #     helm repo add bitnami https://charts.bitnami.com/bitnami
+    #     helm upgrade --install postgresql oci://registry-1.docker.io/bitnamicharts/postgresql-ha
