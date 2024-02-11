@@ -8,7 +8,7 @@ releases:
   - name: nginx
     namespace: default
     chart: stable/nginx-ingress
-    version: latest
+    version: 4.9.1
   - name: postgresql
     namespace: postgresql
     createNamespace: true
