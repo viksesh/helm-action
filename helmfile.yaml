@@ -5,10 +5,6 @@ repositories:
     url: https://charts.bitnami.com/bitnami
 
 releases:
-  - name: nginx
-    namespace: default
-    chart: ingress-nginx/ingress-nginx
-    version: 4.9.1
   - name: postgresql
     namespace: postgresql
     createNamespace: true
