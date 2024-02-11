@@ -60,7 +60,7 @@ jobs:
         chmod +x helmfile
         sudo mv helmfile /usr/local/bin/
         echo $PATH
-        cat helmfile
+        cat /usr/local/bin/helmfile
         helmfile version
 
     - name: Deploy Helm Charts
