@@ -25,7 +25,7 @@ releases:
   #   chart: jetstack/cert-manager
   #   version: v1.14.2
   - name: postgresql
-    namespace: postgresql
+    namespace: keycloak
     createNamespace: true
     chart: bitnami/postgresql
     version: 13.2.3
