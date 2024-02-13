@@ -1,29 +1,36 @@
 repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
-  - name: codecentric
-    url: https://codecentric.github.io/helm-charts
+  # - name: codecentric
+  #   url: https://codecentric.github.io/helm-charts
   - name: hashicorp
     url: https://helm.releases.hashicorp.com
+  - name: quay
+    url: https://quay.io/jetstack
 
 releases:
-  - name: vault
-    namespace: vault
-    createNamespace: true
-    chart: hashicorp/vault
-    version:  0.27.0
-  - name: redis
-    namespace: redis
-    createNamespace: true
-    chart: bitnami/redis
-    version: 18.12.1
+  # - name: vault
+  #   namespace: vault
+  #   createNamespace: true
+  #   chart: hashicorp/vault
+  #   version:  0.27.0
+  # - name: redis
+  #   namespace: redis
+  #   createNamespace: true
+  #   chart: bitnami/redis
+  #   version: 18.12.1
+  # - name: cert-manager
+  #   namespace: cert-manager
+  #   createNamespace: true
+  #   chart: quay/cert-manager-controller
+  #   version: 18.12.1
   - name: postgresql
     namespace: postgresql
     createNamespace: true
-    chart: bitnami/postgresql-ha
+    chart: bitnami/postgresql
     version: 13.2.3
   - name: keycloak
     namespace: keycloak
     createNamespace: true
-    chart: codecentric/keycloak
-    version: 18.4.4
+    chart: bitnami/keycloak
+    version: 18.3.4
