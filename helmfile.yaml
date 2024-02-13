@@ -5,8 +5,8 @@ repositories:
   #   url: https://codecentric.github.io/helm-charts
   - name: hashicorp
     url: https://helm.releases.hashicorp.com
-  - name: quay
-    url: https://quay.io/jetstack
+  # - name: quay
+  #   url: https://quay.io/jetstack
 
 releases:
   # - name: vault
@@ -29,8 +29,12 @@ releases:
     createNamespace: true
     chart: bitnami/postgresql
     version: 13.2.3
+    values:
+      - postgresql/values.yaml
   - name: keycloak
     namespace: keycloak
     createNamespace: true
     chart: bitnami/keycloak
     version: 18.3.4
+    values:
+      - keycloak/values.yaml
