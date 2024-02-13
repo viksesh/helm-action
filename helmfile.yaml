@@ -24,13 +24,13 @@ releases:
   #   createNamespace: true
   #   chart: jetstack/cert-manager
   #   version: v1.14.2
-  # - name: postgresql
-  #   namespace: postgresql
-  #   createNamespace: true
-  #   chart: bitnami/postgresql
-  #   version: 13.2.3
-  #   values:
-  #     - postgresql/values.yaml
+  - name: postgresql
+    namespace: postgresql
+    createNamespace: true
+    chart: bitnami/postgresql
+    version: 13.2.3
+    values:
+      - postgresql/values.yaml
   - name: keycloak
     namespace: keycloak
     createNamespace: true
